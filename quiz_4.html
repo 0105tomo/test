@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>4択クイズ</title>
+</head>
+<body>
+<h1>４択クイズ</h1>
+<hr>
+<h2>問題</h2>
+<div id="text_q"></div>
+<h2>選択</h2>
+<div id="text_s"></div>
+<h2>解答</h2>
+<div id="text_a"></div>
+<script type="text/javascript">
+//問題と解答
+qa = new Array();
+qa[0] = ["お酢に卵を殻ごといれると卵はどうなる？","透明な卵になる","鏡のようになんでもうつる卵になる","卵が溶けてなくなる","卵が石のように堅くなる",1];
+qa[1] = ["しゃっくりはある調味料をなめると止まるとされているが、それは何？","お酢","砂糖","醤油","塩",2];
+qa[2] = ["甘くて美味しい羊羹だが、羊羹はもともとあるものを煮込んだスープのことだった。そのあるスープとは？","牛の血","牛乳","羊の肉","馬の肉",3];
+qa[3] = ["おぼうさんが木魚をたたく意味は？","お経にリズムをつけるため","亡くなった人が天国にいけるようにと祈るため"," 眠くならないようにするため","悪い霊を寄せ付けないため",3];
+qa[4] = ["「アホウドリ」の名前の由来は？","アホーと鳴くから","人間にすぐつかまるから","アホみたいな顔をしているから","阿波踊りみたいに踊っているように飛ぶから",2];
+qa[5] = ["氷が長持ちする作り方は？","塩をいれた水で氷を作る","沸騰したお湯をいれて氷を作る","砂糖をいれた水で氷を作る","お酢をいれた水で氷を作る",2];
+qa[6] = ["有名な作曲家「ベートーベン」の癖は？","目をパチパチさせる","爪をかじる","念入りに手を洗う","くしゃみをしたのち、「大魔王」という",3];
+qa[7] = ["ドジョウは人間と同じようにあることをするが、そのあることとは？","あくび","おなら","まばたき","くしゃみ",2];
+qa[8] = ["豚のくるくる巻いてあるしっぽが、あるときは伸びてまっすぐになるが、そのあるときとはいつ？"," 走っている時","ご飯を食べている時","眠っている時"," おしっこをしている時",3];
+qa[9] = ["ナメクジは塩で溶けますが、他にもある調味料で溶ける。ある調味料とは？","醤油"," 砂糖"," 小麦粉","片栗粉",2];
+
+//初期設定
+q_sel = 4; //選択肢の数
+setReady();
+//初期設定
+function setReady() {
+ count = 0; //問題番号
+ ansers = new Array(); //解答記録
+
+ //最初の問題
+ quiz();
+}
+//問題表示
+function quiz() {
+ var s, n;
+ //問題
+ document.getElementById("text_q").innerHTML = (count + 1) + "問目：" + qa[count][0];
+ //選択肢
+ s = "";
+ for (n=1;n<=q_sel;n++) {
+  s += "【<a href='javascript:anser(" + n + ")'>" + n + ":" + qa[count][n] + "</a>】";
+ }
+ document.getElementById("text_s").innerHTML = s;
+}
+//解答表示
+function anser(num) {
+ var s;
+ s = (count + 1) + "問目：";
+ //答え合わせ
+ if (num == qa[count][q_sel + 1]) {
+  //正解
+  ansers[count] = "○";
+ } else {
+  ansers[count] = "×";
+ }
+ s += ansers[count] + qa[count][num];
+ document.getElementById("text_a").innerHTML = s;
+
+ //次の問題を表示
+ count++;
+ if (count < qa.length) {
+  quiz();
+ } else {
+  //終了
+  s = "<table border='2'><caption>成績発表</caption>";
+  //1行目
+  s += "<tr><th>問題</th>";
+  for (n=0;n<qa.length;n++) {
+   s += "<th>" + (n+1) + "</th>";
+  }
+  s += "</tr>";
+  //2行目
+  s += "<tr><th>成績</th>";
+  for (n=0;n<qa.length;n++) {
+   s += "<td>" + ansers[n] + "</td>";
+  }
+  s += "</tr>";
+  s += "</table>";
+  document.getElementById("text_q").innerHTML = s;
+  //次の選択肢
+  s = "【<a href='javascript:history.back()'>前のページに戻る</a>】";
+  s += "【<a href='javascript:setReady()'>同じ問題を最初から</a>】";
+  s += "【<a href=''>次の問題に進む</a>】";
+  document.getElementById("text_s").innerHTML = s;
+ }
+}
+</script>
+</body>
+</html>
